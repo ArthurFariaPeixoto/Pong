@@ -7,16 +7,22 @@ import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable, KeyListener {
     private static JFrame frame;
-    private final int WIDTH = 240;
-    private final int HEIGHT = 120;
+    public static final int WIDTH = 180;
+    public static final int HEIGHT = 120;
     private final int SCALE = 3;
+
     public BufferedImage layer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    public Player player;
+
+    public static Player player;
+    public static Enemy enemy;
+    public static Ball ball;
 
     public Game() {
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         this.addKeyListener(this);
-        player = new Player(100, HEIGHT - 10);
+        player = new Player(90, HEIGHT - 5);
+        enemy = new Enemy(90, 0);
+        ball = new Ball(90, HEIGHT/2 - 3);
     }
 
     public static void main(String[] args) {
@@ -34,6 +40,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public void tick() {
         player.tick();
+        enemy.tick();
+        ball.tick();
     }
 
     public void render() {
@@ -43,8 +51,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             return;
         }
         Graphics g = layer.getGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0, WIDTH, HEIGHT);
         player.render(g);
-
+        enemy.render(g);
+        ball.render(g);
         g = bs.getDrawGraphics();
         g.drawImage(layer, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
         bs.show();
@@ -63,19 +74,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode()== KeyEvent.VK_RIGHT){
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             player.right = true;
         }
-        else if(e.getKeyCode()== KeyEvent.VK_LEFT){
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT){
             player.left = true;
         }
     }
 
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode()== KeyEvent.VK_RIGHT) {
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
             player.right = false;
         }
-        else if(e.getKeyCode()== KeyEvent.VK_LEFT) {
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             player.left = false;
         }
 
