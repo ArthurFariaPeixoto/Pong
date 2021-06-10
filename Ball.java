@@ -22,19 +22,29 @@ public class Ball {
     public void tick(){
         /*Colisao com parede*/
         if(x + (dx * speed) + WIDTH >= Game.WIDTH){
+            Sound.bounce.play();
             dx *= -1;
         }
         else if(x + (dx * speed) < 0){
+            Sound.bounce.play();
             dx *= -1;
         }
         /* ****** */
         if(y>= Game.HEIGHT){
-            System.out.println("Ponto inimigo");
+            Sound.lose.play();
+            Enemy.ponto++;
+            //System.out.println("Ponto do bot");
+            //System.out.println("Player: "+Player.ponto);
+            //System.out.println("Bot: "+Enemy.ponto);
             new Game();
             return;
         }
         else if(y < 0){
-            System.out.println("Ponto do jogador");
+            Sound.win.play();
+            Player.ponto++;
+            //System.out.println("Ponto do jogador");
+            //System.out.println("Player: "+Player.ponto);
+            //System.out.println("Bot: "+Enemy.ponto);
             new Game();
             return;
         }
@@ -44,6 +54,7 @@ public class Ball {
 
         /*Colisao com os jogadores*/
         if(bounds.intersects(boundsPlayer)){
+            Sound.bounce.play();
             int angle = new Random().nextInt((120 - 45) + 46);
             dx = Math.cos(Math.toRadians(angle));
             dy = Math.sin(Math.toRadians(angle));
@@ -52,6 +63,7 @@ public class Ball {
             }
         }
         else if(bounds.intersects(boundsEnemy)){
+            Sound.bounce.play();
             int angle = new Random().nextInt((120 - 45) + 46);
             dx = Math.cos(Math.toRadians(angle));
             dy = Math.sin(Math.toRadians(angle));
