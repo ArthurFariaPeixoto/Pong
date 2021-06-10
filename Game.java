@@ -100,7 +100,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             System.exit(1);
         }
-
+        else if(e.getKeyCode() == KeyEvent.VK_R){
+            new Game();
+        }
     }
 
     public void keyTyped(KeyEvent e) {
