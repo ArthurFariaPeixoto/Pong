@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable, KeyListener {
-    private static JFrame frame;
     public static final int WIDTH = 180;
     public static final int HEIGHT = 120;
     private final int SCALE = 3;
@@ -23,17 +22,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
         player = new Player(90, HEIGHT - 5);
         enemy = new Enemy(90, 0);
         ball = new Ball(90, HEIGHT/2 - 3);
+
     }
 
     public static void main(String[] args) {
         Game game = new Game();
-        frame = new JFrame("Pong");
+        JFrame frame = new JFrame();
+        frame.setTitle("Pong");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(game);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
 
         new Thread(game).start();
     }
@@ -53,6 +55,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
         Graphics g = layer.getGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0,0, WIDTH, HEIGHT);
+
+        g.setFont(new Font("Arial", Font.BOLD, 9));
+        g.setColor(Color.WHITE);
+        g.drawString("Bot: "+Enemy.ponto, 0, HEIGHT-100);
+        g.drawString("Player: "+Player.ponto, 0, HEIGHT-110);
+
         player.render(g);
         enemy.render(g);
         ball.render(g);
@@ -88,6 +96,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             player.left = false;
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            System.exit(1);
         }
 
     }
