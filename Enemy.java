@@ -4,6 +4,7 @@ public class Enemy {
 
     public double x, y;
     public int WIDTH, HEIGHT;
+    public static int ponto=0;
 
     public Enemy(int x, int y){
         this.x = x;
